@@ -1,0 +1,21 @@
+{
+    "manifest_version": 3,
+    "name": "Teste",
+    "version": "1.0.0",
+    "icons" : {
+      "32": "icon32.png"
+    },
+    "background": {
+      "service_worker": "service-worker.js",
+      "type": "module"
+    },
+    "action": {},
+    "permissions": [
+      "scripting"
+    ],
+    "host_permissions": [
+      "http://*/*",
+      "https://*/*"
+    ]
+  }
+  

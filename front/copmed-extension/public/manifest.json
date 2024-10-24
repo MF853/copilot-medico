@@ -6,8 +6,7 @@
         "default_popup": "index.html"
     },
     "permissions": [
-        "scripting",
-        "tabs"
+        "scripting"
     ],
     "host_permissions": [
         "http://*/*",

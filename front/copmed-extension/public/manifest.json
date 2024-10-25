@@ -9,7 +9,9 @@
         "service_worker": "background.js"
     },
     "permissions": [
-        "scripting"
+        "scripting",
+        "activeTab",
+        "*://localhost/*"
     ],
     "host_permissions": [
         "http://*/*",

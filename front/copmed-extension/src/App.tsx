@@ -22,31 +22,29 @@ function App() {
         return;
       }
   
-      // Executa o script para pegar o HTML da página
+      // Executa o script para pegar o valor do input específico
       const result = await chrome.scripting.executeScript({
         target: { tabId: tab.id },
         func: () => {
-          // Retorna o HTML da página atual
-          return document.documentElement.outerHTML;
+          // Seleciona o input pelo atributo 'f_prontuario' e retorna seu valor
+          const inputElement = document.querySelector('input[f_prontuario="peso"]');
+          return inputElement ? (inputElement as HTMLInputElement).value : null;
         },
       });
   
       // Verifica o resultado
-      if (result && result[0]?.result) {
-        const pageHTML = result[0].result;
-  
-        // Envia o HTML da página para o background.js
-        chrome.runtime.sendMessage({ type: 'SEND_HTML', html: pageHTML }, (response) => {
-          console.log('Resposta do background:', response);
-      });
-        
+      if (result && result[0]?.result !== null) {
+        const inputValue = result[0].result;
+        console.log('Valor do input:', inputValue);
       } else {
-        console.error('Nenhum HTML capturado');
+        console.error('Elemento input não encontrado ou sem valor');
       }
     } catch (error) {
-      console.error('Erro ao capturar o HTML:', error);
+      console.error('Erro ao capturar o valor do input:', error);
     }
   };
+  
+
   
   return (
     <>

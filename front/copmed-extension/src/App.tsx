@@ -1,23 +1,25 @@
-// App.tsx
 import { useState } from 'react';
 import './App.css';
 import Chat from './modules/Chat/chat';
-import { executeScriptOnActiveTab } from './utils/utils.ts';
+import { executeScriptOnActiveTab } from './utils/utils';
 
 function App() {
   const [selector, setSelector] = useState('.note-editable[role="textbox"]'); // Seletor padrão
   const [index, setIndex] = useState(0); // Índice padrão
   const [extractedText, setExtractedText] = useState<string | null>(null);
 
-  const onClick = () => {
-    executeScriptOnActiveTab(selector, index, (result : any) => {
+  const onClick = async () => {
+    try {
+      const result = await executeScriptOnActiveTab(selector, index);
       if (result) {
         setExtractedText(result);
         console.log('Texto extraído:', result);
       } else {
         console.log('Não foi possível extrair o texto');
       }
-    });
+    } catch (error) {
+      console.error('Erro ao executar o script:', error);
+    }
   };
 
   return (

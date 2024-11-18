@@ -4,13 +4,94 @@ import Chat from './modules/Chat/chat';
 import { executeScriptOnActiveTab } from './utils/utils';
 
 function App() {
-  const [selector, setSelector] = useState('.note-editable[role="textbox"]'); // Seletor padrão
-  const [index, setIndex] = useState(0); // Índice padrão
+  const [debugSelector, setDebugSelector] = useState('.note-editable[role="textbox"]'); // Seletor padrão
+  const [debugIndex, setDebugIndex] = useState(0); // Índice padrão
   const [extractedText, setExtractedText] = useState<string | null>(null);
   const [debugMode, setDebugMode] = useState(false);
 
+  //htmls estáticos
+  const [editableNotes] = useState(
+    {
+      selector: '.note-editable[role="textbox"]',
+      roleAndIndex: [
+        {
+          role: 'Anamnese',
+          index: 0
+        },
+        {
+          role : 'Detalhes exame físico',
+          index : 1
+        },
+        {
+          role : 'Conclusão diagnóstica',
+          index : 2
+        },
+        {
+          role : 'lista de problemas',
+          index : 3
+        }
 
-  const onClick = async () => {
+      ]
+    }
+  ); 
+
+  
+
+  const createInputs = async () => {
+    const inputKeys = ["peso" , "altura" , "imc" , "tempe" , "freqres" , "freqcar" , "pas" , "pad"]
+    let inputs = []
+
+    for (let inputKey of inputKeys) {
+      inputs.push({
+        input: 'input[f_prontuario="${inputKey}"]',
+        role: inputKey
+      });
+    }
+
+    return inputs
+  }
+
+  
+
+  const extractDinamicData = async () => {
+    let extractedData = [];
+    let inputs = await createInputs();
+    
+    for (let i = 0; i < inputs.length; i++) {
+      const {input, role} = inputs[i];
+      const result = await extractSingleDiv(input, 0);
+
+      if (result) {
+        extractedData.push({
+          role,
+          text: result
+        });
+      }
+    }
+
+    console.log('Dados extraídos Dinâmicos:', extractedData);
+  } 
+
+  const extractEditableNotesData = async () => {
+    let extractedData = [];
+    
+    for (let i = 0; i < editableNotes.roleAndIndex.length; i++) {
+      const {role, index} = editableNotes.roleAndIndex[i];
+      const result = await extractSingleDiv(editableNotes.selector, index);
+
+      if (result) {
+        extractedData.push({
+          role,
+          text: result
+        });
+      }
+    }
+
+    console.log('Dados extraídos:', extractedData);
+
+  }
+
+  const extractSingleDivDebug = async (selector : any , index : any) => {
     try {
       const result = await executeScriptOnActiveTab(selector, index);
       if (result) {
@@ -23,6 +104,24 @@ function App() {
       console.error('Erro ao executar o script:', error);
     }
   };
+
+  const extractSingleDiv = async (selector : any , index : any) => {
+    try {
+      const result = await executeScriptOnActiveTab(selector, index);
+      if (result) {
+        return result;
+      } else {
+        return null
+      }
+    } catch (error) {
+      return null;
+    }
+  };
+
+  const  handleExtractData = () => {
+    extractEditableNotesData();
+    extractDinamicData();
+  }
 
   const handleDebugMode = () => {
     setDebugMode(!debugMode);
@@ -41,8 +140,8 @@ function App() {
                   Seletor CSS:
                   <input
                     type="text"
-                    value={selector}
-                    onChange={(e) => setSelector(e.target.value)}
+                    value={debugSelector}
+                    onChange={(e) => setDebugSelector(e.target.value)}
                     placeholder="Exemplo: .note-editable[role='textbox']"
                   />
                 </label>
@@ -52,8 +151,8 @@ function App() {
                   Índice:
                   <input
                     type="number"
-                    value={index}
-                    onChange={(e) => setIndex(parseInt(e.target.value, 10))}
+                    value={debugIndex}
+                    onChange={(e) => setDebugIndex(parseInt(e.target.value, 10))}
                     min={0}
                   />
                 </label>
@@ -61,14 +160,20 @@ function App() {
               <div>
                 {extractedText && <p>Texto extraído: {extractedText}</p>}
               </div>
-              <button onClick={onClick}>Extrair texto</button>
+              <button onClick={() => extractSingleDivDebug(debugSelector , debugIndex)}>Extrair texto</button>
+
+
             </div>
           )
         }
+
+        <button onClick={handleExtractData}>
+          Extrair Dados
+        </button>
 
       </div>
     </>
   );
 }
 
-export default App;
+export default App;

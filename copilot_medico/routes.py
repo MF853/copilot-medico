@@ -18,6 +18,23 @@ def get_db():
 def ping_server():
     return "Pagina de inicio da API do copilot_medico"
 
+@app.route('/process', methods=['POST'])
+def process_html():
+    data = request.json
+    html_content = data.get('html')
+    
+    # Processamento do conteudo html enviado pelo back.
+    with open('pagina.html', 'w', encoding='utf-8') as f:
+        f.write(html_content)
+    
+
+    tag_count = html_content.count('<')
+    return jsonify({
+        'status': 'success',
+        'message': 'HTML processado com sucesso',
+        'tags_found': tag_count
+    })
+
 @app.route('/consultar_pacientes')
 def get_historico():
     db=""

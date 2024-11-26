@@ -1,11 +1,11 @@
 services:
-  app:
+  server:
     build: .
-    command: python -u app.py
+    command: python -u routes.py
     ports:
       - "50000:50000"
     volumes:
-      - .:/app
+      - .:/var/app
     links:
       - db
   db:

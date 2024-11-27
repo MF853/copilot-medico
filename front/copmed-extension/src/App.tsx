@@ -43,10 +43,13 @@ function App() {
 
     for (let inputKey of inputKeys) {
       inputs.push({
-        input: 'input[f_prontuario="${inputKey}"]',
+        input: `input[f_prontuario="${inputKey}"]`,
         role: inputKey
       });
+
     }
+
+   
 
     return inputs
   }
@@ -60,6 +63,7 @@ function App() {
     for (let i = 0; i < inputs.length; i++) {
       const {input, role} = inputs[i];
       const result = await extractSingleDiv(input, 0);
+
 
       if (result) {
         extractedData.push({

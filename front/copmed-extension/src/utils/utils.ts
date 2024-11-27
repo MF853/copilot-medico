@@ -2,13 +2,9 @@
 export const extractTextFromElement = (selector: string, index: number = 0): string | null => {
     const elements = document.querySelectorAll(selector);
 
-    
-
   if (elements && elements.length > index) {
     const element = elements[index];
     
-
-
     
     // Se for um input ou um elemento com 'value', retorna o value
     if (element instanceof HTMLInputElement) {

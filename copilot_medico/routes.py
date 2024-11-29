@@ -2,6 +2,7 @@ from flask import Flask, jsonify, request
 import pymongo
 from pymongo import MongoClient
 import datetime
+from .utils.consulta import Consulta
 
 app = Flask(__name__)
 
@@ -20,34 +21,28 @@ def ping_server():
 
 @app.route('/process', methods=['POST'])
 def process_html():
+    # Processamento do conteudo html enviado para o back.
     data = request.json
     html_content = data.get('html')
+    consulta=Consulta(html_content)
+    anamnese = consulta.get_anamnese()
+    exame = consulta.get_exame()
+    data = consulta.get_data()
     
-    # Processamento do conteudo html enviado pelo back.
-    with open('pagina.html', 'w', encoding='utf-8') as f:
-        f.write(html_content)
-    
+    # Inserindo no banco de dados. Isso deve ser transferido para a classe Consulta
+    db = get_db()
+    consulta = {'id' : id, 'name' : 'a', 'anamnese' : anamnese,'diagnostico' : exame, 'date' : data}
+    db.pacientes_db.insert_one(consulta)
 
     tag_count = html_content.count('<')
     return jsonify({
         'status': 'success',
         'message': 'HTML processado com sucesso',
-        'tags_found': tag_count
+        'tags_found': tag_count,
+        'anamnese_text': anamnese,    # Retorna o conteúdo da anamnese
+        'exame_text': exame          # Detalhes do exame físico
     })
 
-@app.route('/consultar_pacientes')
-def get_historico():
-    db=""
-    try:
-        db = get_db()
-        _historico = db.pacientes_db.find()
-        historico = [{"id": consulta["id"], "name": consulta["name"], "anamnese": consulta["anamnese"],"diagnostico": consulta["diagnostico"]} for consulta in _historico]
-        return jsonify({"pacientes": historico})
-    except:
-        pass
-    finally:
-        if type(db)==MongoClient:
-            db.close()
     
 @app.route('/add_consulta/<int:id>',methods=["POST"])
 def add_consulta(id):

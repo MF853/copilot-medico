@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import {useState } from 'react';
 import './App.css';
 import Chat from './modules/Chat/chat';
 import { executeScriptOnActiveTab } from './utils/utils';
@@ -9,6 +9,12 @@ function App() {
   const [extractedText, setExtractedText] = useState<string | null>(null);
   const [debugMode, setDebugMode] = useState(false);
 
+
+  const [messages, setMessages] = useState([
+    { id: 1, text: "Olá! Como posso ajudar?", sender: "bot", timestamp: new Date().toLocaleTimeString() },
+  ]);
+
+  
   //htmls estáticos
   const [editableNotes] = useState(
     {
@@ -138,8 +144,8 @@ function App() {
         
         // Aguarda a conversão da resposta para JSON
         const dados = await response.json(); 
-        
-        console.log('Resposta:', dados.ai_response);
+        return dados;
+
       } else {
         console.log('Erro ao enviar dados extraídos');
       }
@@ -163,7 +169,21 @@ function App() {
       
   
       // Send the combined data to the server
-      await sendExtractedDataToServer(combinedData);
+      const dados = await sendExtractedDataToServer(combinedData);
+      console.log('Dados:', dados);
+      
+      setTimeout(() => {
+        const botResponse = {
+          id: messages.length + 2,
+          text: dados.ai_response, //dados
+          sender: "bot",
+          timestamp: new Date().toLocaleTimeString()
+        };
+        setMessages((prev: any) => [...prev, botResponse]);
+      }, 1000);
+
+
+
     } catch (error) {
       console.error('Erro ao extrair dados:', error);
     }
@@ -175,7 +195,7 @@ function App() {
 
   return (
     <>
-      <Chat />
+      <Chat messages={messages} setMessages={setMessages} />
       <div className="card">
         <button onClick={handleDebugMode}>Debug</button>
         {

@@ -6,12 +6,11 @@ openai.api_key = API_KEY
 
 # Carregar as mensagens iniciais
 system_message = open('./backend/Co-Pilot_medico.txt', encoding='utf-8').read()
-patient_data = open('./backend/patient_data.txt', encoding='utf-8').read()
+
 
 # Inicializar a conversa com as mensagens de sistema e o dado inicial do paciente
 messages = [
     {"role": "system", "content": system_message},
-    {"role": "user", "content": patient_data}
 ]
 
 # Primeira interação com a API

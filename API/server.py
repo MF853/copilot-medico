@@ -40,8 +40,7 @@ def receive_extracted_data():
         # print("\nResposta da IA:")
         # print(response)
         
-        # Adicionar resposta da IA às mensagens
-        openai_connection.messages.append({"role": "assistant", "content": response})
+        
         
         # Retornar a resposta da IA para o front-end (opcional)
         return jsonify({

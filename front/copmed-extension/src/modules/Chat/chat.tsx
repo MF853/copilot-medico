@@ -1,13 +1,20 @@
 // Chat.jsx
-import { useState } from 'react';
+import { JSXElementConstructor, Key, ReactElement, ReactNode, ReactPortal, useState } from 'react';
 import { Send } from 'lucide-react';
 import './chat.css'; // Vamos criar este arquivo em seguida
 
-const Chat = () => {
-  const [messages, setMessages] = useState([
-    { id: 1, text: "Olá! Como posso ajudar?", sender: "bot", timestamp: new Date().toLocaleTimeString() },
-  ]);
+
+
+interface ChatProps {
+  messages: any;
+  setMessages: any;
+}
+
+const Chat: React.FC<ChatProps> = ({ messages, setMessages }) => {
+
   const [newMessage, setNewMessage] = useState("");
+  
+  
 
   const sendMessage = (e : any) => {
     e.preventDefault();
@@ -30,9 +37,11 @@ const Chat = () => {
         sender: "bot",
         timestamp: new Date().toLocaleTimeString()
       };
-      setMessages(prev => [...prev, botResponse]);
+      setMessages((prev: any) => [...prev, botResponse]);
     }, 1000);
   };
+
+  
 
   return (
     <div className="chat-container">
@@ -41,7 +50,7 @@ const Chat = () => {
       </div>
 
       <div className="chat-messages">
-        {messages.map((message) => (
+        {messages.map((message: { id: Key | null | undefined; sender: string; text: string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | null | undefined; timestamp: string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | null | undefined; }) => (
           <div
             key={message.id}
             className={`chat-message-wrapper ${

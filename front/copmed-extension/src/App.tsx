@@ -73,7 +73,7 @@ function App() {
       }
     }
 
-    console.log('Dados extraídos Dinâmicos:', extractedData);
+    return extractedData;
   } 
 
   const extractEditableNotesData = async () => {
@@ -91,7 +91,7 @@ function App() {
       }
     }
 
-    console.log('Dados extraídos:', extractedData);
+    return extractedData;
 
   }
 
@@ -122,10 +122,46 @@ function App() {
     }
   };
 
-  const  handleExtractData = () => {
-    extractEditableNotesData();
-    extractDinamicData();
-  }
+
+  // const sendExtractedDataToServer = async (extractedData : any) => {
+  //   try {
+  //     const response = await fetch('http://localhost:3001/api/extracted-data', {
+  //       method: 'POST',
+  //       headers: {
+  //         'Content-Type': 'application/json'
+  //       },
+  //       body: JSON.stringify(extractedData)
+  //     });
+
+  //     if (response.ok) {
+  //       console.log('Dados extraídos enviados com sucesso');
+  //     } else {
+  //       console.log('Erro ao enviar dados extraídos');
+  //     }
+  //   } catch (error) {
+  //     console.error('Erro ao enviar dados extraídos:', error);
+  //   }
+  // }
+  
+  const handleExtractData = async () => {
+    try {
+      // Extract both static and dynamic data concurrently
+      const [staticData, dinamicData] = await Promise.all([
+        extractEditableNotesData(),
+        extractDinamicData()
+      ]);
+  
+      // Combine the two arrays of extracted data
+      const combinedData = [...staticData, ...dinamicData];
+
+      console.log('Dados extraídos:', combinedData);
+  
+      // Send the combined data to the server
+      //await sendExtractedDataToServer(combinedData);
+    } catch (error) {
+      console.error('Erro ao extrair dados:', error);
+    }
+  };
 
   const handleDebugMode = () => {
     setDebugMode(!debugMode);

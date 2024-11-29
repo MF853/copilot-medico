@@ -135,9 +135,15 @@ function App() {
 
       if (response.ok) {
         console.log('Dados extraídos enviados com sucesso');
+        
+        // Aguarda a conversão da resposta para JSON
+        const dados = await response.json(); 
+        
+        console.log('Resposta:', dados.ai_response);
       } else {
         console.log('Erro ao enviar dados extraídos');
       }
+      
     } catch (error) {
       console.error('Erro ao enviar dados extraídos:', error);
     }

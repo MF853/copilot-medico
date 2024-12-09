@@ -16,7 +16,7 @@ Desenvolvido com base no prontuário da Amplimed (sistema de gestão de clínica
 - **Tecnologias**:
   - JavaScript (v18.12.1)
   - Extensão Chrome ("manifest_version" : 3)
-  - node
+  - Node
 
 ### Dependências
 

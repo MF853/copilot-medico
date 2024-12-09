@@ -1,7 +1,0 @@
-bs4
-flask
-flask_cors
-flask-pymongo
-json
-openai
-pymongo

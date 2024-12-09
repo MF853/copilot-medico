@@ -18,30 +18,6 @@ Desenvolvido com base no prontuário da Amplimed (sistema de gestão de clínica
   - Extensão Chrome ("manifest_version" : 3)
   - Node
 
-### Dependências
-
-Certifique-se de instalar as dependências necessárias antes de iniciar o projeto.
-
-"dependencies": {
-    "lucide-react": "^0.453.0",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1"
-  },
-  "devDependencies": {
-    "@eslint/js": "^9.11.1",
-    "@types/chrome": "^0.0.279",
-    "@types/react": "^18.3.10",
-    "@types/react-dom": "^18.3.0",
-    "@vitejs/plugin-react": "^4.3.2",
-    "eslint": "^9.11.1",
-    "eslint-plugin-react-hooks": "^5.1.0-rc.0",
-    "eslint-plugin-react-refresh": "^0.4.12",
-    "globals": "^15.9.0",
-    "typescript": "^5.5.3",
-    "typescript-eslint": "^8.7.0",
-    "vite": "^5.4.8"
-  }
-
 #### Backend
 
 1. Instale o Flask e a biblioteca OpenAI executando:

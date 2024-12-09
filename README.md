@@ -1,8 +1,8 @@
 # Co-pilot Médico
 
-**Co-pilot Médico** 
+**Co-pilot Médico**
 
-Desenvolvido com base no prontuário da Amplimed (sistema de gestão de clinícas)
+Desenvolvido com base no prontuário da Amplimed (sistema de gestão de clínicas)
 
 ## Requisitos
 
@@ -49,6 +49,12 @@ Certifique-se de instalar as dependências necessárias antes de iniciar o proje
    pip install openai flask
    ```
 
+2. Abra o servidor na pasta `API` executando o arquivo `server.py`:
+   ```bash
+   cd API
+   python server.py
+   ```
+
 #### Frontend
 
 1. Navegue para o diretório `front/copmed-extension`:
@@ -88,6 +94,3 @@ Certifique-se de instalar as dependências necessárias antes de iniciar o proje
    - A extensão deve aparecer na sua barra de ferramentas. Clique nela para começar a usar!
 
 ---
-
-
-

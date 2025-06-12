@@ -24,8 +24,13 @@ Desenvolvido com base no prontuário da Amplimed (sistema de gestão de clínica
    ```bash
    pip install openai flask
    ```
+2. Gere uma chave para a API no site da OpenAI e adicione ao projeto:
+   ```bash
+   cd API/backend
+   ```
+   Crie um arquivo com o nome `api-key.txt` dentro da paste, e cole a chave dentro dele.
 
-2. Abra o servidor na pasta `API` executando o arquivo `server.py`:
+3. Abra o servidor na pasta `API` executando o arquivo `server.py`:
    ```bash
    cd API
    python server.py
